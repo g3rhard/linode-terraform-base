@@ -1,4 +1,4 @@
-token = "a4b4979c2e8a8bdec4471914bc6fb6e89056f53e5e415e619322fcc6654e42c2"
-authorized_keys = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDfZIY8pNHrScxwkRVqJGjR5sJRgIZsGMIg0nXxrwf3/hl4W+e5qybdch/OeWf9OBFAy3cnmqydBzdhHT0rm/BWxa4c5V8IaE3XXDzSoPgSvowo1hEl9+f3MX5CMe2PP4dz+Cxy3bvm7avsO1P5Wf2/OGz9wswl89F0Kpy0mf7fxufh1F3nDRrQLgcUh0to+z8p1Uk9D8d/N9vflD/TvzAwPQ47LcfGYxyhvbsPHenBmVLkricnDXGkc9Wsj0FOO0/qOmRGE19fPW2BiHm1TbZUa9zbEpJhNllQPUWJAM85v5cnENMFkkUc8cGH22F1doHXPbLNk0o3VuNXMdhBPVHt02Gg08909QUep07rRLKxmzOManIyTDZ4uqjuoiUNrlmBhFzi3VyO0u3IGAkqc8NYfLPYVImRthfvXVSS/Ruw3o50rC9LtYQB0AnRqRWxKyElSmcIbJ+GIjnImTiuTXxy69C8cScUywoFy6EMfCuAWk98QyRimHAT3f9tHe9rG30="
-root_pass = "yZjeQVUHG059buIzl9xESLj4O7uSM2db"
+token           = ""
+authorized_keys = ""
+root_pass       = ""
 
