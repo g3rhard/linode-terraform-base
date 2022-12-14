@@ -5,6 +5,10 @@ terraform {
       source  = "linode/linode"
       version = "1.29.4"
     }
+    template = {
+      source  = "hashicorp/template"
+      version = "2.2.0"
+    }
   }
 }
 
