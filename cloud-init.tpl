@@ -1,4 +1,6 @@
 #cloud-config
+
+---
 users:
   - name: ${gh_username}
     shell: /usr/bin/bash
@@ -8,7 +10,11 @@ users:
 chpasswd:
   expire: false
 
+ssh_pwauth: false
+
+apt_update: true
 apt_upgrade: true
+
 apt:
   sources:
     hashicorp:
