@@ -15,3 +15,12 @@ variable "image" {
   default = "linode/ubuntu22.04"
   type    = string
 }
+
+variable "gh_username" {
+  description = "GitHub username whose user account will be created using the SSH Keys stored on GitHub"
+  type        = string
+}
+
+variable "public_stackscript" {
+  default = "false"
+}

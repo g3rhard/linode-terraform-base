@@ -5,10 +5,6 @@ resource "linode_instance" "instance" {
   type            = "g6-nanode-1"
   authorized_keys = var.authorized_keys
   root_pass       = var.root_pass
-
-  stackscript_id = linode_stackscript.install_base.id
-  stackscript_data = {
-    "package" = "nginx"
-  }
+  stackscript_id  = linode_stackscript.cloud_init.id
 
 }
