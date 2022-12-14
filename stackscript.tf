@@ -7,7 +7,6 @@ data "template_file" "script" {
 }
 
 data "template_cloudinit_config" "config" {
-  gzip          = true
   base64_encode = true
 
   # Main cloud-config configuration file.
@@ -15,15 +14,6 @@ data "template_cloudinit_config" "config" {
     filename     = "init.cfg"
     content_type = "text/cloud-config"
     content      = data.template_file.script.rendered
-  }
-
-  part {
-    content_type = "text/x-shellscript"
-
-    content = <<EOF
-#!/bin/bash
-/bin/echo "Hello World" >> /tmp/testfile.txt
-EOF
   }
 
 }
