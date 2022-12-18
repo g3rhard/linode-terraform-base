@@ -12,9 +12,12 @@ on:
     paths-ignore:
       - README.md
 
+permissions:
+  contents: read
+  packages: write
+
 jobs:
   tfsec:
-    name: tfsec
     runs-on: ubuntu-latest
 
     steps:
@@ -49,3 +52,10 @@ jobs:
           tfsec_flags: "" # Optional
         if: |
           (github.event_name == 'pull_request')
+
+      - name: Send Discord notification
+        uses: sarisia/actions-status-discord@v1
+        if: always()
+        with:
+          title: "${ env:GITHUB_REPOSITORY } ${{ github.workflow }}"
+          webhook: ${{ secrets.DISCORD_WEBHOOK }}
