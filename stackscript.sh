@@ -1,44 +1,29 @@
 #!/bin/sh
-# <UDF name="userdata" label="user-data file contents (base64 encoded)" />
-set +e +x
-FILE_USERDATA="/var/lib/cloud/seed/nocloud/user-data"
-FILE_METADATA="/var/lib/cloud/seed/nocloud/meta-data"
-# vendor-data and network-config are optional
+# <UDF name="SERVER_TYPE" label="server type for provision" />
+# <UDF name="GH_USERNAME" label="github username for import keys" />
 
-echo "Configuring cloud-init..."
-echo "set cloud-init/datasources NoCloud" | debconf-communicate
-mkdir -p /etc/cloud/cloud.cfg.d /var/lib/cloud/seed/nocloud/
+set -e
 
-if [ -n "$LINODE_ID" ]; then
-cat > /etc/cloud/cloud.cfg.d/01-instanceid.cfg <<'EOS'
-datasource:
-  NoCloud:
-    meta-data:
-      instance-id: linode$LINODE_ID
-EOS
-fi
+# Variables
+PROVISION_REPO="https://github.com/g3rhard/terraform-ansible-provision.git"
 
-cat > /etc/cloud/cloud.cfg.d/99-warnings.cfg <<'EOS'
-#cloud-config
-warnings:
-  dsid_missing_source: off
-EOS
+echo "Provision started at $(date)" >> /tmp/provision.log 2>&1
 
-UMASK=$(umask)
-umask 0066
-echo "Creating $FILE_METADATA..."
-touch "${FILE_METADATA}"
+# Install pre-requisites
+apt update && apt install -y ansible python-pip git htop mc jq zsh tmux >> /tmp/provision.log 2>&1
 
-echo "Creating $FILE_USERDATA..."
-touch "${FILE_USERDATA}"
-echo "${USERDATA}" | base64 -d > "${FILE_USERDATA}"
-umask "${UMASK}"
+# Import SSH identity
+ssh-import-id gh:${GH_USER} >> /tmp/provision.log 2>&1
 
-echo "Installing cloud-init..."
-apt-get -q=2 update
-apt-get -q=2 install -y cloud-init
+# Clone repo with playbooks
+git clone --depth 1 ${PROVISION_REPO} .provision >> /tmp/provision.log 2>&1
+# Define Host
+mkdir /etc/ansible
+echo "[$SERVER_TYPE]" | tee -a /etc/ansible/hosts
+echo "localhost ansible_connection=local" | tee -a /etc/ansible/hosts
 
-echo "Running cloud-init... (init, config, and final)"
-cloud-init init
-cloud-init modules --mode=config
-cloud-init modules --mode=final
+# Ansible-galaxy
+ansible-galaxy install -r ".provision/$SERVER_TYPE/requirements.yml" >> /tmp/provision.log 2>&1
+ansible-playbook ".provision/$SERVER_TYPE/provision.yaml" >> /tmp/provision.log 2>&1
+
+echo > /tmp/provision.finished

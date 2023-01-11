@@ -5,9 +5,10 @@ resource "linode_instance" "instance" {
   type            = "g6-nanode-1"
   authorized_keys = var.authorized_keys
   root_pass       = var.root_pass
-  stackscript_id  = linode_stackscript.cloud_init.id
+  stackscript_id  = linode_stackscript.ansible_provision.id
   stackscript_data = {
-    "userdata" = "${data.template_cloudinit_config.config.rendered}"
+    "SERVER_TYPE" = "proxy"
+    "GH_USERNAME" = var.gh_username
   }
 
 }

@@ -4,6 +4,5 @@
   "editor.tabSize": 2,
   "files.insertFinalNewline": true,
   "files.trimFinalNewlines": true,
-  "files.trimTrailingWhitespace": true,
-  "files.encoding": "utf8bom",
+  "files.trimTrailingWhitespace": true
 }
