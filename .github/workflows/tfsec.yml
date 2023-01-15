@@ -36,6 +36,7 @@ jobs:
         uses: aquasecurity/tfsec-action@v1.0.0
         with:
           soft_fail: true
+          format: checkstyle
 
       - name: Run tfsec with reviewdog output on the PR
         uses: reviewdog/action-tfsec@master
